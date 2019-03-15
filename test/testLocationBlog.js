@@ -54,4 +54,16 @@ describe("Testing the LocationBlog Facade", function () {
         expect(locationBlogs.length).to.be.equal(3);
     });
 
+    it("Should like Cool Place2 for Kurt Wonnegut", async function () {
+        var locationBlogs = await blogFacade.getAllLocationBlogs();
+        var locationBlog = await blogFacade.findById(locationBlogs[1]._id);
+        expect(locationBlog.likedBy).to.be.empty;
+        locationBlog = await blogFacade.likeLocationBlog(locationBlogs[1]._id, users[0]._id);
+        expect(locationBlog).to.not.be.null;
+        expect(locationBlog.info).to.be.equal("Cool Place2");
+        expect(locationBlogs.length).to.be.equal(2);
+        expect(locationBlog.likedBy).to.be.contains(users[0]._id);
+    });
+    
+
 })
