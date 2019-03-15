@@ -5,18 +5,18 @@ function getAllUsers() {
   return User.find({}).exec();
 }
 
-function addUser(firstName, lastName, userName, password, email) {
-  //TBD -- Should make the test fail
-  return null;
+async function addUser(firstName, lastName, userName, password, email) {
+  var user = new User({ firstName, lastName, userName, password, email });
+  await user.save();
+  return user;
 }
 
-function findByUsername(username) {
-  //TBD -- Should make the test fail
-  return null;
+function findByUsername(userName) {
+  return User.findOne({ userName }).exec();
 }
 
 function findById(id) {
-  return User.findById({ _id:id }).exec();
+  return User.findById({ _id: id }).exec();
 }
 
 module.exports = {
