@@ -4,9 +4,9 @@ var userFacade = require('../facades/userFacade')
 
 /* GET users listing. */
 router.get('/users', async function (req, res, next) {
-  users = await userFacade.getAllUsersJSON();
-  
-  res.json(users)
+  users = await userFacade.getAllUsers();
+
+  res.json({ users })
 });
 
 router.get('/error', function (req, res, next) {

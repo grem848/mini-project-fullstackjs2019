@@ -4,9 +4,9 @@ var connect = require("../dbConnect.js");
 
 
 //See (for the three lines below): https://github.com/Automattic/mongoose/issues/1251
-mongoose.models = {};
-mongoose.modelSchemas = {};
-mongoose.connection = {};
+// mongoose.models = {};
+// mongoose.modelSchemas = {};
+// mongoose.connection = {};
 
 var userFacade = require("../facades/userFacade");
 var User = require("../models/User");

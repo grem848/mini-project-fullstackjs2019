@@ -5,10 +5,6 @@ function getAllUsers() {
   return User.find({}).exec();
 }
 
-function getAllUsersJSON() {
-  return User.find().lean().exec();
-}
-
 async function addUser(firstName, lastName, userName, password, email) {
   var user = new User({ firstName, lastName, userName, password, email });
   await user.save();
@@ -25,7 +21,6 @@ function findById(id) {
 
 module.exports = {
   getAllUsers,
-  getAllUsersJSON,
   addUser,
   findByUsername,
   findById
