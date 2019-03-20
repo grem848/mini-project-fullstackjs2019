@@ -5,4 +5,14 @@ block content
   p Welcome to #{title}
 
   h2= apiInfo.title
-  p= apiInfo.howToUse
+  h3 Users
+  p= apiInfo.REST_allUsers
+  p= apiInfo.REST_userName
+  p= apiInfo.REST_userid
+  br
+  h3 Blogs
+  p= apiInfo.REST_allBlogs
+  p= apiInfo.REST_blogid
+
+  h3 Error
+  p= apiInfo.REST_error
