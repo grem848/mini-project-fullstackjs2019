@@ -3,7 +3,10 @@ var router = express.Router();
 
 var apiInfo = {
   title: "Site with a simple users and error API",
-  howToUse : "Get all users like this: /api/users or /api/error"
+  REST_allUsers : "Get all users like this: /api/users",
+  REST_UserName : "Get all users like this: /api/users/username=ckw",
+  REST_Userid : "Get all users like this: /api/users/id=5c8b9b5319d0bd2494d95e17",
+  REST_error : "Get an error like this: /api/error",
 }
 
 
