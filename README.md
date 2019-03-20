@@ -1,3 +1,10 @@
+# guide
+
+- npm run dev
+- npm run test
+
+
+# installation
 - create file called settings.js in root of the project
 - add below code and replace the DB URI's with MongoDB connections strings
 - npm install
