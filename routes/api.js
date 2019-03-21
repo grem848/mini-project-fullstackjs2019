@@ -22,6 +22,19 @@ router.get('/users/id=:id', async function (req, res, next) {
   res.json({ users : await userFacade.findById(id)});
 });
 
+/* POST creates user */
+router.post('/user/add', async function( req, res, next){
+  var body = req.body;
+  var firstname = body.firstname;
+  var lastname = body.lastname;
+  var username = body.username;
+  var password = body.password;
+  var email = body.email;
+
+  var user = await userFacade.addUser(firstname,lastname,username,password, email)
+  res.json(user);
+})
+
 /* GET locationblog listing. */
 router.get('/blogs', async function (req, res, next) {
   res.json({ blogs : await blogFacade.getAllLocationBlogs()});
@@ -33,8 +46,27 @@ router.get('/blogs/id=:id', async function (req, res, next) {
   res.json({ blogs : await blogFacade.findById(id)});
 });
 
+/* POST Create LocationBlog */
+router.post('/blog/add', async function(req, res, next){
+  var info = req.body.info;
+  var img = req.body.img === undefined ? " " : req.body.img;
+  var pos = req.body.pos;
+  var author = req.body.author;
 
+  var log = await blogFacade.addLocationBlog(info, img, pos, author);
+  console.log(log)
+  res.json(log);
+  
+})
 
+/* POST Like a Blog */
+router.post('/blog/like', async function(req, res, next){
+  var userid = req.body.userid;
+  var blogid = req.body.blogid;
+
+  var blog = await blogFacade.likeLocationBlog(blogid, userid);
+  res.json(blog);
+})
 
 
 router.get('/error', function (req, res, next) {

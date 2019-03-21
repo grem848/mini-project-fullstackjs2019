@@ -6,7 +6,13 @@ function getAllUsers() {
 }
 
 async function addUser(firstName, lastName, userName, password, email) {
-  var user = new User({ firstName, lastName, userName, password, email });
+  var user = new User({ 
+    firstName: firstName, 
+    lastName: lastName, 
+    userName: userName, 
+    password: password, 
+    email: email
+     });
   await user.save();
   return user;
 }

@@ -6,7 +6,11 @@ function getAllLocationBlogs() {
 }
 
 async function addLocationBlog(info, img, pos, author) {
-    var locationBlog = new LocationBlog({info, img, pos, author})
+    var locationBlog = new LocationBlog({
+      info: info,
+      img: img,
+      pos: pos,
+      author: author})
     await locationBlog.save();
     return locationBlog;
 }
