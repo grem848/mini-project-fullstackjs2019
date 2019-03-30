@@ -7,13 +7,15 @@ var mongoose = require('mongoose');
 
 /* POST Client Login */
 router.post('/login', async function(req, res, next) {
-	var { userName, password } = req.body;
-	var user = await loginFacade.login(userName, password);
-	// if (user !== null) {
-	// 	res.json({ friends });
-	// } else {
-	// 	await res.status(403).json({ msg: 'wrong username or password', status: 403 });
-	// }
+	var { username, password, longitude, latitude, radius } = req.body;
+	var user = await loginFacade.login(username, password, longitude, latitude, radius).catch((err) => {
+		throw new Error(err);
+	});
+	if (user === null) {
+		res.status(403).json({ msg: 'wrong username or password', status: 403 });
+	} else {
+		// do something
+	}
 });
 
 /* GET users listing. */
@@ -35,9 +37,9 @@ router.get('/users/id=:id', async function(req, res, next) {
 
 /* POST creates user */
 router.post('/user/add', async function(req, res, next) {
-	var { firstname, lastname, userName, password, email } = req.body;
+	var { firstName, lastName, userName, password, email } = req.body;
 
-	var user = await userFacade.addUser(firstname, lastname, userName, password, email);
+	var user = await userFacade.addUser(firstName, lastName, userName, password, email);
 	res.json(user);
 });
 
