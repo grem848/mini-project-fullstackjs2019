@@ -4,17 +4,25 @@ var userFacade = require('../facades/userFacade');
 var blogFacade = require('../facades/blogFacade');
 var loginFacade = require('../facades/loginFacade');
 var mongoose = require('mongoose');
+var colors = require('colors');
 
 /* POST Client Login */
 router.post('/login', async function(req, res, next) {
-	var { username, password, longitude, latitude, radius } = req.body;
-	var friends = await loginFacade.login(username, password, longitude, latitude, radius).catch((err) => {
+	var { username, password, longitude, latitude, distance } = req.body;
+	var friends = await loginFacade.login(username, password, longitude, latitude, distance).catch((err) => {
 		throw new Error(err);
 	});
 	if (friends === null) {
 		res.status(403).json({ msg: 'wrong username or password', status: 403 });
 	} else {
-		res.status(200).json(friends);
+		var pretty = friends.map((friend) => {
+			return {
+				username: friend.user.userName,
+				latitude: friend.loc.coordinates[1],
+				longitude: friend.loc.coordinates[0]
+			};
+		});
+		res.status(200).json(pretty);
 	}
 });
 

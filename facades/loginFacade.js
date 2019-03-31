@@ -9,24 +9,21 @@ async function login(username, password, lon, lat, radius) {
 	var user = await User.findOne({ userName: username, password }).select({ _id: 1 }).catch((err) => {
 		throw new Error('err has occured');
 	});
-	//console.log(user);
 	if (user !== null) {
 		var dbPosition = await Position.findOne({ user: user._id }).catch((err) => {
 			throw Error(err);
 		});
-		//	console.log({ findOne: dbPosition });
 		if (dbPosition === null) {
 			var position = new Position({
 				user: user._id,
 				loc: { type: 'Point', coordinates: [ lon, lat ] }
 			});
-			var updatedPosition = await Position.findOneAndUpdate({ user: user._id }, position, {
+			await Position.findOneAndUpdate({ user: user._id }, position, {
 				upsert: true,
 				new: true
 			});
-			//			console.log({ updatedVersion: updatedPosition });
 		} else {
-			var updatedPosition = await Position.findOneAndUpdate(
+			await Position.findOneAndUpdate(
 				{ user: user._id },
 				{ loc: { type: 'Point', coordinates: [ lon, lat ] } },
 				{
@@ -55,7 +52,9 @@ async function findNearbyPlayers(lon, lat, dist, fields) {
 				$maxDistance: dist
 			}
 		}
-	});
+	})
+		.populate('user', 'userName') // you can add more variables if you like
+		.select({ created: 0, __v: 0, _id: 0, 'loc.type': 0, 'user._id': 0 });
 }
 
 module.exports = {
