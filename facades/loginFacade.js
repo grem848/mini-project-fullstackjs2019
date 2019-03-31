@@ -35,30 +35,27 @@ async function login(username, password, lon, lat, radius) {
 			).catch((err) => {
 				console.log(colors.red(err.errmsg));
 			});
-			//console.log({ updatedVersion: updatedPosition });
 		}
 
-		var friends = await findNearbyPlayers(lon, lat, radius, {}).catch((err) => {
+		var friends = await findNearbyPlayers(lon, lat, radius, { user: 1, _id: 0 }).catch((err) => {
 			console.log(colors.red(err.errmsg));
 		});
-		console.log(friends);
+
+		return friends;
 	}
-	return user;
+	return null;
 }
 
 async function findNearbyPlayers(lon, lat, dist, fields) {
-	return await Position.find(
-		{
-			loc: {
-				$near: {
-					$coordinates: [ lon, lat ],
-					$maxDistance: dist,
-					$minDistance: 0
-				}
+	return Position.find({
+		loc: {
+			$near: {
+				$geometry: { type: 'Point', coordinates: [ lon, lat ] },
+				$minDistance: 0,
+				$maxDistance: dist
 			}
-		},
-		fields
-	);
+		}
+	});
 }
 
 module.exports = {

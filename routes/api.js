@@ -8,13 +8,13 @@ var mongoose = require('mongoose');
 /* POST Client Login */
 router.post('/login', async function(req, res, next) {
 	var { username, password, longitude, latitude, radius } = req.body;
-	var user = await loginFacade.login(username, password, longitude, latitude, radius).catch((err) => {
+	var friends = await loginFacade.login(username, password, longitude, latitude, radius).catch((err) => {
 		throw new Error(err);
 	});
-	if (user === null) {
+	if (friends === null) {
 		res.status(403).json({ msg: 'wrong username or password', status: 403 });
 	} else {
-		// do something
+		res.status(200).json(friends);
 	}
 });
 

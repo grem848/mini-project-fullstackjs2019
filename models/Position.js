@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const SECONDS = 1;
-var EXPIRES = 60 * SECONDS;
+var EXPIRES = 60 * 60 * SECONDS;
 var PositionSchema = new Schema({
 	//Make sure that next line reflects your User-model
 	user: { type: Schema.ObjectId, ref: 'User', required: true },
