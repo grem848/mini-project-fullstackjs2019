@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var colors = require('colors');
 
 /* POST Client Login */
-router.post('/login', async function(req, res, next) {
+router.post('/login', async function (req, res, next) {
 	var { username, password, longitude, latitude, distance } = req.body;
 	var friends = await loginFacade.login(username, password, longitude, latitude, distance).catch((err) => {
 		throw new Error(err);
@@ -15,36 +15,38 @@ router.post('/login', async function(req, res, next) {
 	if (friends === null) {
 		res.status(403).json({ msg: 'wrong username or password', status: 403 });
 	} else {
-		var pretty = friends.map((friend) => {
-			return {
-				username: friend.user.userName,
-				latitude: friend.loc.coordinates[1],
-				longitude: friend.loc.coordinates[0]
-			};
-		});
+		var pretty = {
+			friends: friends.map((friend) => {
+				return {
+					username: friend.user.userName,
+					latitude: friend.loc.coordinates[1],
+					longitude: friend.loc.coordinates[0]
+				};
+			})
+		};
 		res.status(200).json(pretty);
 	}
 });
 
 /* GET users listing. */
-router.get('/users', async function(req, res, next) {
+router.get('/users', async function (req, res, next) {
 	res.json({ users: await userFacade.getAllUsers() });
 });
 
 /* GET user by userName */
-router.get('/users/username=:userName', async function(req, res, next) {
+router.get('/users/username=:userName', async function (req, res, next) {
 	var userName = req.params.userName;
 	res.json({ users: await userFacade.findByUsername(userName) });
 });
 
 /* GET user by id */
-router.get('/users/id=:id', async function(req, res, next) {
+router.get('/users/id=:id', async function (req, res, next) {
 	var id = req.params.id;
 	res.json({ users: await userFacade.findById(id) });
 });
 
 /* POST creates user */
-router.post('/user/add', async function(req, res, next) {
+router.post('/user/add', async function (req, res, next) {
 	var { firstName, lastName, userName, password, email } = req.body;
 
 	var user = await userFacade.addUser(firstName, lastName, userName, password, email);
@@ -52,18 +54,18 @@ router.post('/user/add', async function(req, res, next) {
 });
 
 /* GET locationblog listing. */
-router.get('/blogs', async function(req, res, next) {
+router.get('/blogs', async function (req, res, next) {
 	res.json({ blogs: await blogFacade.getAllLocationBlogs() });
 });
 
 /* GET locationblog by id */
-router.get('/blogs/id=:id', async function(req, res, next) {
+router.get('/blogs/id=:id', async function (req, res, next) {
 	var id = req.params.id;
 	res.json({ blogs: await blogFacade.findById(id) });
 });
 
 /* POST Create LocationBlog */
-router.post('/blog/add', async function(req, res, next) {
+router.post('/blog/add', async function (req, res, next) {
 	var { info, pos, author } = req.body;
 	var img = req.body.img === undefined ? ' ' : req.body.img;
 
@@ -73,14 +75,14 @@ router.post('/blog/add', async function(req, res, next) {
 });
 
 /* POST Like a Blog */
-router.post('/blog/like', async function(req, res, next) {
+router.post('/blog/like', async function (req, res, next) {
 	var { userid, blogid } = req.body;
 
 	var blog = await blogFacade.likeLocationBlog(blogid, userid);
 	res.json(blog);
 });
 
-router.get('/error', function(req, res, next) {
+router.get('/error', function (req, res, next) {
 	// for demonstration
 	if (true) {
 		//create error object
