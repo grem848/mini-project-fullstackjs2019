@@ -35,9 +35,10 @@ async function login(username, password, lon, lat, radius) {
 			});
 		}
 
-		var friends = await findNearbyPlayers(lon, lat, radius, { _id: 0 }).catch((err) => {
+		var friends = await findNearbyPlayers(lon, lat, radius, { user: 1, _id: 0 }).catch((err) => {
 			console.log(colors.red(err.errmsg));
 		});
+		console.log(friends);
 
 		return friends;
 	}
@@ -45,8 +46,6 @@ async function login(username, password, lon, lat, radius) {
 }
 
 async function findNearbyPlayers(lon, lat, dist, fields) {
-	console.log("\n\n--------------------")
-	console.log(fields)
 	return Position.find({
 		loc: {
 			$near: {
@@ -55,9 +54,9 @@ async function findNearbyPlayers(lon, lat, dist, fields) {
 				$maxDistance: dist
 			}
 		}
-	}, fields)
-		// .populate('user', 'userName') // you can add more variables if you like
-		// .select({ created: 0, __v: 0, _id: 0, 'loc.type': 0, 'user._id': 0 });
+	})
+		.populate('user', 'userName firstName') // you can add more variables if you like
+		.select({ created: 0, __v: 0, _id: 0, 'loc.type': 0, 'user._id': 0 });
 }
 
 module.exports = {
