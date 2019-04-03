@@ -7,8 +7,11 @@ var PositionSchema = new Schema({
 	user: { type: Schema.ObjectId, ref: 'User', required: true },
 	created: { type: Date, expires: EXPIRES, default: Date.now },
 	loc: {
-		type: { type: String, enum: 'Point', default: 'Point' },
-		coordinates: { type: [ Number ] }
+		type: { type: String, enum: ['Point'], default: 'Point', required: true },
+		coordinates: {
+			type: [Number],
+			required: true
+		}
 	}
 });
 PositionSchema.index({ loc: '2dsphere' }, { background: true });

@@ -58,9 +58,11 @@ async function makeData() {
     var jane = await userFacade.findByUsername("cjw");
     var bo = await userFacade.findByUsername("cbw");
 
+    console.log("Add positions to jane, bo and a")
     var positions = [
       positionCreator(12.51293635, 55.77066395, jane._id, true),
-      positionCreator(12.53932071, 55.76679288, bo._id, true)
+      positionCreator(12.53932071, 55.76679288, bo._id, true),
+      positionCreator(12, 11, users[0]._id)
     ]
     console.log(`${kurt.firstName}'s ID: ${kurt._id}`);
     console.log(`${jane.firstName}'s ID: ${jane._id}`);
