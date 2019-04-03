@@ -13,11 +13,11 @@ async function login(username, password, lon, lat, radius) {
 		var dbPosition = await Position.findOne({ user: user._id }).catch((err) => {
 			throw Error(err);
 		});
-		console.log(dbPosition)
+		console.log(dbPosition);
 		if (dbPosition === null) {
 			var position = new Position({
 				user: user._id,
-				loc: { type: 'Point', coordinates: [lon, lat] }
+				loc: { type: 'Point', coordinates: [ lon, lat ] }
 			});
 			await Position.findOneAndUpdate({ user: user._id }, position, {
 				upsert: true,
@@ -26,7 +26,7 @@ async function login(username, password, lon, lat, radius) {
 		} else {
 			await Position.findOneAndUpdate(
 				{ user: user._id },
-				{ loc: { type: 'Point', coordinates: [lon, lat] } },
+				{ loc: { type: 'Point', coordinates: [ lon, lat ] } },
 				{
 					new: true
 				}
@@ -48,7 +48,7 @@ async function findNearbyPlayers(lon, lat, dist, fields) {
 	return Position.find({
 		loc: {
 			$near: {
-				$geometry: { type: 'Point', coordinates: [lon, lat] },
+				$geometry: { type: 'Point', coordinates: [ lon, lat ] },
 				$minDistance: 0,
 				$maxDistance: dist
 			}
