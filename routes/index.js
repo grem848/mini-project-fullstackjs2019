@@ -8,6 +8,7 @@ var apiInfo = {
   REST_userid : "Get a user from id like this: /api/users/id=5c8b9b5319d0bd2494d95e17",
   REST_allBlogs : "Get all blogs like this: /api/blogs",
   REST_blogid : "Get a blog from id like this: /api/blogs/id=5c8b9b5319d0bd2494d95e1a",
+  REST_login : 'Login and see users friends like this: /api/login and send a user like this(postman): {"username": "b","password": "a","latitude":3, "longitude": 5,"distance" : 3}',
   REST_error : "Get an error like this: /api/error",
 }
 
