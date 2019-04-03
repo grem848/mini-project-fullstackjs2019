@@ -53,7 +53,7 @@ async function findNearbyPlayers(lon, lat, dist, fields) {
 				$maxDistance: dist
 			}
 		}
-	}, fields)
+	})
 		.populate('user', 'userName') // you can add more variables if you like
 		.select({ created: 0, __v: 0, _id: 0, 'loc.type': 0, 'user._id': 0 });
 }
