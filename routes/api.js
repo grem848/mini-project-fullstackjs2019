@@ -3,6 +3,7 @@ var router = express.Router();
 var userFacade = require('../facades/userFacade');
 var blogFacade = require('../facades/blogFacade');
 var loginFacade = require('../facades/loginFacade');
+var queryFacade = require('../facades/queryFacade');
 var mongoose = require('mongoose');
 var colors = require('colors');
 
@@ -55,6 +56,17 @@ router.post('/user/add', async function(req, res, next) {
 	res.json(user);
 });
 
+/* geoapi from location to username */
+router.get('/distanceToUser/:lon/:lat/:username', async function(req, res, next) {
+	var { lon, lat, username } = req.params;
+	var obj = await queryFacade.getDistanceToUser(lon, lat, username).catch((err) => {
+		res.status(404).json({ msg: err.message });
+	});
+	if (obj !== undefined) {
+		res.status(200).json({ distance: obj.distance, to: obj.username });
+	}
+});
+
 /* GET locationblog listing. */
 router.get('/blogs', async function(req, res, next) {
 	res.json({ blogs: await blogFacade.getAllLocationBlogs() });
@@ -79,7 +91,6 @@ router.post('/blog/add', async function(req, res, next) {
 /* POST Like a Blog */
 router.post('/blog/like', async function(req, res, next) {
 	var { userid, blogid } = req.body;
-
 	var blog = await blogFacade.likeLocationBlog(blogid, userid);
 	res.json(blog);
 });

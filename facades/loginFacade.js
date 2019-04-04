@@ -13,7 +13,6 @@ async function login(username, password, lon, lat, radius) {
 		var dbPosition = await Position.findOne({ user: user._id }).catch((err) => {
 			throw Error(err);
 		});
-		console.log(dbPosition);
 		if (dbPosition === null) {
 			var position = new Position({
 				user: user._id,
@@ -38,7 +37,6 @@ async function login(username, password, lon, lat, radius) {
 		var friends = await findNearbyPlayers(lon, lat, radius, { user: 1, _id: 0 }).catch((err) => {
 			console.log(colors.red(err.errmsg));
 		});
-		console.log(friends);
 
 		return friends;
 	}
