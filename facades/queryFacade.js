@@ -30,7 +30,7 @@ async function findNearbyPlayers(lon, lat, dist) {
 		loc: {
 			$near: {
 				$geometry: { type: 'Point', coordinates: [ lon, lat ] },
-				$minDistance: 0,
+				$minDistance: 0.1,
 				$maxDistance: dist
 			}
 		}
