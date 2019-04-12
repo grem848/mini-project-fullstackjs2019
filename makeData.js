@@ -4,6 +4,7 @@ connect(require("./settings").DEV_DB_URI);
 var User = require("./models/User.js");
 var LocationBlog = require("./models/LocationBlog.js");
 var Position = require("./models/Position.js");
+var Area = require('./models/Area.js');
 var userFacade = require("./facades/userFacade.js")
 
 function positionCreator(lon, lat, userId, dateInFuture) {
@@ -33,7 +34,8 @@ async function makeData() {
     ];
     await User.deleteMany({});
     await Position.deleteMany({});
-    await LocationBlog.deleteMany({})
+    await LocationBlog.deleteMany({});
+    await Area.deleteMany({});
     //This will not activate the "save" midleware
     var users = await User.insertMany(userInfos);
     var userList = await userFacade.getAllUsers();
@@ -62,7 +64,7 @@ async function makeData() {
     var positions = [
       positionCreator(12.51293635, 55.77066395, jane._id, true),
       positionCreator(12.53932071, 55.76679288, bo._id, true),
-      positionCreator(12, 11, users[0]._id)
+      positionCreator(12.544750, 55.775508, kurt._id, true)
     ]
     console.log(`${kurt.firstName}'s ID: ${kurt._id}`);
     console.log(`${jane.firstName}'s ID: ${jane._id}`);
@@ -70,6 +72,28 @@ async function makeData() {
     await Position.insertMany(positions);
     console.log("\n-------------------------------------------\n");
 
+    console.log("Create Area")
+    const polygon = {
+      type: "Polygon",
+      name: "TestArea",
+      coordinates: [
+        [
+          [12.541322708129883, 55.77415929267225],
+          [12.577714920043945, 55.7767661102896],
+          [12.576856613159178, 55.78038640106636],
+          [12.58277893066406, 55.78231708529588],
+          [12.581834793090819, 55.78661251449472],
+          [12.578573226928711, 55.788784180465655],
+          [12.576513290405273, 55.79433344350657],
+          [12.569818496704102, 55.795732698062174],
+          [12.541322708129883, 55.77415929267225]
+        ]
+      ]
+    };
+    const area = await new Area(polygon).save();
+    console.log("Saved an area: ", area);
+
+    console.log("\n-------------------------------------------\n");
 
     var blogs = [{ info: "Cool Place", pos: { longitude: 26, latitude: 57 }, author: users[0]._id },]
     var blogs = await LocationBlog.insertMany(blogs);

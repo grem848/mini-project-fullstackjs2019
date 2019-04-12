@@ -9,6 +9,7 @@ connect(require('./settings').DEV_DB_URI);
 
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
+var geoapiRouter = require('./routes/geoapi')
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('/geoapi', geoapiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
