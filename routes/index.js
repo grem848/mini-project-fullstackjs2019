@@ -4,7 +4,7 @@ var router = express.Router();
 var apiInfo = {
   title: "Site with two simple API's",
   REST_allUsers : "Get all users like this: /api/users ",
-  REST_userName : "Get a user from username like this: /api/users/username=ckw ",
+  REST_userName : "Get a user from username like this: /api/users/username ",
   REST_userid : "Get a user from id like this: /api/users/userid",
   REST_allBlogs : "Get all blogs like this: /api/blogs ",
   REST_blogid : "Get a blog from id like this: /api/blogs/blogid",
