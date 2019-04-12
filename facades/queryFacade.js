@@ -2,7 +2,6 @@
 const User = require('../models/User');
 const Position = require('../models/Position');
 const gju = require('geojson-utils');
-const colors = require('colors');
 
 async function getDistanceToUser(lon, lat, username) {
 	const user_id = await User.findOne({ userName: username }).select({ _id: 1 });

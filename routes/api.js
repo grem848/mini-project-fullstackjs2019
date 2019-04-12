@@ -10,13 +10,13 @@ var colors = require('colors');
 /* POST Client Login */
 router.post('/login', async function(req, res, next) {
 	var { username, password, longitude, latitude, distance } = req.body;
+	console.log(username, password, longitude, latitude, distance);
 	var friends = await loginFacade.login(username, password, longitude, latitude, distance).catch((err) => {
 		throw new Error(err);
 	});
 	if (friends === null) {
 		res.status(403).json({ msg: 'wrong username or password', status: 403 });
 	} else {
-		console.log(friends);
 		var pretty = {
 			friends: friends.map((friend) => {
 				return {
