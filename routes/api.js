@@ -10,7 +10,6 @@ var colors = require('colors');
 /* POST Client Login */
 router.post('/login', async function(req, res, next) {
 	var { username, password, longitude, latitude, distance } = req.body;
-	console.log(username, password, longitude, latitude, distance);
 	var friends = await loginFacade.login(username, password, longitude, latitude, distance).catch((err) => {
 		throw new Error(err);
 	});
