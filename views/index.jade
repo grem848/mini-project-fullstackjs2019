@@ -5,16 +5,35 @@ block content
   p Welcome to #{title}
 
   h2= apiInfo.title
+  h2 Basic (api) Endpoints
   h3 Users
   p= apiInfo.REST_allUsers
+    a(href="http://localhost:3000/api/users") #{"Link"}
   p= apiInfo.REST_userName
+    a(href="http://localhost:3000/api/users/username=ckw") #{"Link"}
   p= apiInfo.REST_userid
-  br
   h3 Blogs
   p= apiInfo.REST_allBlogs
+    a(href="http://localhost:3000/api/blogs") #{"Link"}
   p= apiInfo.REST_blogid
   h3 Login
   p= apiInfo.REST_login
-
   h3 Error
-  p= apiInfo.REST_error
+  p= apiInfo.error
+    a(href="http://localhost:3000/api/error") #{"Link"}
+  br
+  br
+  br
+  h2 GEO Location (geoapi) Endpoints
+  h3 Distance to User
+  p= apiInfo.GEO_distanceToUser
+    a(href="http://localhost:3000/geoapi/distanceToUser/12.54/55.775508/ckw") #{"Link"}
+  h3 Check if a user is in an Area
+  p= apiInfo.GEO_isUserInArea
+    a(href="http://localhost:3000/geoapi/userInArea/TestArea/ckw") #{"Link (Kurt)"}
+    a 
+    a(href="http://localhost:3000/geoapi/userInArea/TestArea/cjw") #{"Link (Jane)"}
+
+  h3 GEO Error
+  p= apiInfo.error
+    a(href="http://localhost:3000/geoapi/error") #{"Link"}

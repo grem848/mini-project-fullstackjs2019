@@ -5,7 +5,6 @@ var blogFacade = require('../facades/blogFacade');
 var loginFacade = require('../facades/loginFacade');
 var queryFacade = require('../facades/queryFacade');
 var mongoose = require('mongoose');
-var colors = require('colors');
 
 /* POST Client Login */
 router.post('/login', async function(req, res, next) {
@@ -56,16 +55,6 @@ router.post('/user/add', async function(req, res, next) {
 	res.json(user);
 });
 
-/* geoapi from location to username */
-router.get('/distanceToUser/:lon/:lat/:username', async function(req, res, next) {
-	var { lon, lat, username } = req.params;
-	var obj = await queryFacade.getDistanceToUser(lon, lat, username).catch((err) => {
-		res.status(404).json({ msg: err.message });
-	});
-	if (obj !== undefined) {
-		res.status(200).json({ distance: obj.distance, to: obj.username });
-	}
-});
 
 /* GET locationblog listing. */
 router.get('/blogs', async function(req, res, next) {
@@ -82,7 +71,7 @@ router.get('/blogs/id=:id', async function(req, res, next) {
 router.post('/blog/add', async function(req, res, next) {
 	var { info, pos, author } = req.body;
 	var img = req.body.img === undefined ? ' ' : req.body.img;
-
+	
 	var log = await blogFacade.addLocationBlog(info, img, pos, author);
 	console.log(log);
 	res.json(log);
@@ -94,6 +83,7 @@ router.post('/blog/like', async function(req, res, next) {
 	var blog = await blogFacade.likeLocationBlog(blogid, userid);
 	res.json(blog);
 });
+
 
 router.get('/error', function(req, res, next) {
 	// for demonstration

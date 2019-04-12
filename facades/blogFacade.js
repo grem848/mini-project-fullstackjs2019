@@ -17,7 +17,7 @@ async function addLocationBlog(info, img, pos, author) {
 }
 
 async function likeLocationBlog(blogid, userid) {
-	return await LocationBlog.findOneAndUpdate({ _id: blogid }, { likedBy: [ userid ] }, { new: true }).exec();
+	return await LocationBlog.findOneAndUpdate({ _id: blogid }, { likedBy: [userid] }, { new: true }).exec();
 }
 
 function findById(id) {
