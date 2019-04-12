@@ -9,7 +9,7 @@ var colors = require('colors');
 
 /* POST Client Login */
 router.post('/login', async function(req, res, next) {
-	var { username, password, longitude, latitude, distance } = req.body !== null;
+	var { username, password, longitude, latitude, distance } = req.body;
 	console.log(username, password, longitude, latitude, distance);
 	var friends = await loginFacade.login(username, password, longitude, latitude, distance).catch((err) => {
 		throw new Error(err);
@@ -57,16 +57,6 @@ router.post('/user/add', async function(req, res, next) {
 	res.json(user);
 });
 
-/* geoapi from location to username */
-router.get('/distanceToUser/:lon/:lat/:username', async function(req, res, next) {
-	var { lon, lat, username } = req.params;
-	var obj = await queryFacade.getDistanceToUser(lon, lat, username).catch((err) => {
-		res.status(404).json({ msg: err.message });
-	});
-	if (obj !== undefined) {
-		res.status(200).json({ distance: obj.distance, to: obj.username });
-	}
-});
 
 /* GET locationblog listing. */
 router.get('/blogs', async function(req, res, next) {
@@ -83,7 +73,7 @@ router.get('/blogs/id=:id', async function(req, res, next) {
 router.post('/blog/add', async function(req, res, next) {
 	var { info, pos, author } = req.body;
 	var img = req.body.img === undefined ? ' ' : req.body.img;
-
+	
 	var log = await blogFacade.addLocationBlog(info, img, pos, author);
 	console.log(log);
 	res.json(log);
@@ -94,6 +84,17 @@ router.post('/blog/like', async function(req, res, next) {
 	var { userid, blogid } = req.body;
 	var blog = await blogFacade.likeLocationBlog(blogid, userid);
 	res.json(blog);
+});
+
+/* GET distance to user from username and */
+router.get('/distanceToUser/:lon/:lat/:username', async function(req, res, next) {
+	var { lon, lat, username } = req.params;
+	var obj = await queryFacade.getDistanceToUser(lon, lat, username).catch((err) => {
+		res.status(404).json({ msg: err.message });
+	});
+	if (obj !== undefined) {
+		res.status(200).json({ distance: obj.distance, to: obj.username });
+	}
 });
 
 router.get('/error', function(req, res, next) {

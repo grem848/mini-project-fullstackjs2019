@@ -11,15 +11,15 @@ var LocationBlogSchema = new Schema({
 	//author: {type: Schema.ObjectId, }
 	author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 	//Why not ref below
-	likedBy: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
+	likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	created: { type: Date, default: Date.now },
 	lastUpdated: Date
 });
-LocationBlogSchema.virtual('likedByCount').get(function() {
+LocationBlogSchema.virtual('likedByCount').get(function () {
 	return this.likedBy.length;
 });
 
-LocationBlogSchema.pre('update', function(next) {
+LocationBlogSchema.pre('update', function (next) {
 	this.update({}, { $set: { lastUpdated: new Date() } });
 	next();
 });

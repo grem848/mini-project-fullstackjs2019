@@ -2,6 +2,7 @@ const Position = require('../models/Position');
 const User = require('../models/User');
 const gju = require('geojson-utils');
 const colors = require('colors');
+const queryFacade = require("./queryFacade");
 
 // needs refactoring
 async function login(username, password, lon, lat, radius) {
@@ -34,27 +35,13 @@ async function login(username, password, lon, lat, radius) {
 			});
 		}
 
-		var friends = await findNearbyPlayers(lon, lat, radius, { user: 1, _id: 0 }).catch((err) => {
+		var friends = await queryFacade.findNearbyPlayers(lon, lat, radius, { user: 1, _id: 0 }).catch((err) => {
 			console.log(colors.red(err.errmsg));
 		});
 
 		return friends;
 	}
 	return null;
-}
-
-async function findNearbyPlayers(lon, lat, dist, fields) {
-	return Position.find({
-		loc: {
-			$near: {
-				$geometry: { type: 'Point', coordinates: [ lon, lat ] },
-				$minDistance: 0,
-				$maxDistance: dist
-			}
-		}
-	})
-		.populate('user', 'userName firstName') // you can add more variables if you like
-		.select({ created: 0, __v: 0, _id: 0, 'loc.type': 0, 'user._id': 0 });
 }
 
 module.exports = {

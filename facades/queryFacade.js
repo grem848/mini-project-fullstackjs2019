@@ -25,6 +25,21 @@ async function getDistanceToUser(lon, lat, username) {
 	}
 }
 
+async function findNearbyPlayers(lon, lat, dist) {
+	return Position.find({
+		loc: {
+			$near: {
+				$geometry: { type: 'Point', coordinates: [ lon, lat ] },
+				$minDistance: 0,
+				$maxDistance: dist
+			}
+		}
+	})
+		.populate('user', 'userName firstName') // you can add more variables if you like
+		.select({ created: 0, __v: 0, _id: 0, 'loc.type': 0, 'user._id': 0 });
+}
+
 module.exports = {
-	getDistanceToUser
+	getDistanceToUser,
+	findNearbyPlayers
 };

@@ -5,16 +5,19 @@ block content
   p Welcome to #{title}
 
   h2= apiInfo.title
+  h2 Basic Endpoints
   h3 Users
   p= apiInfo.REST_allUsers
   p= apiInfo.REST_userName
   p= apiInfo.REST_userid
-  br
   h3 Blogs
   p= apiInfo.REST_allBlogs
   p= apiInfo.REST_blogid
   h3 Login
   p= apiInfo.REST_login
-
   h3 Error
-  p= apiInfo.REST_error
+  p= apiInfo.error
+  br
+  h2 GEO Location Endpoints
+  p= apiInfo.GEO_distanceToUser
+
