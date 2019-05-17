@@ -9,8 +9,19 @@ connect(require('./settings').DEV_DB_URI);
 
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
-var geoapiRouter = require('./routes/geoapi')
+var geoapiRouter = require('./routes/geoapi');
 
+/******************************
+ * **********Grahpql***********
+ * **************************** */
+const { makeExecutableSchema } = require('graphql-tools');
+const graphqlHTTP = require('express-graphql');
+const { resolvers } = require('./graphql/resolvers');
+const { typeDefs } = require('./graphql/schema');
+
+var schema = makeExecutableSchema({ typeDefs, resolvers });
+
+/******************************* */
 var app = express();
 
 // view engine setup
@@ -27,6 +38,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/geoapi', geoapiRouter);
+app.use(
+	'/graphql',
+	graphqlHTTP({
+		schema,
+		graphiql: true
+	})
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
