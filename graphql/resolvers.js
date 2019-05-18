@@ -26,7 +26,15 @@ const resolvers = {
 			if (obj !== undefined) {
 				return { status: obj.status, msg: obj.msg };
 			}
-		}
+		},
+		getDistanceToUser: async (_, { lon, lat, username }) => {
+			var obj = await queryFacade.getDistanceToUser(lon, lat, username).catch((err) => {
+				return { msg: err.message };
+			});
+			if (obj !== undefined) {
+				return { distance: obj.distance, to: obj.username  };
+			}
+		},
 	},
 	Mutation: {
 		addUser: async (_, { input }) => {
@@ -42,5 +50,5 @@ const resolvers = {
 };
 
 module.exports = {
-  resolvers
+	resolvers
 };

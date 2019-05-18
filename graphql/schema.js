@@ -8,7 +8,8 @@ const typeDefs = `
     getUserByID(id: String!): User
     getAllLocationBlogs: [Blog]
     getBlogByID(id: String!): Blog
-    isUserinArea(areaname: String, username: String): Info
+    isUserinArea(areaname: String!, username: String!): UserInArea
+    getDistanceToUser(lon: Int!, lat: Int!, username: String! ): DistanceToUser
   }
 
   type Mutation {
@@ -29,20 +30,26 @@ const typeDefs = `
   type Blog {
     likedBy: [User]
     info: String
-    pos: Position
+    pos: BlogPosition
     author: User
     created: Date
   }
 
-  type Position {
+  type BlogPosition {
     longitude: Int!
     latitude: Int!
   }
 
-  type Info {
+  type UserInArea {
     status: String
     msg: String
   }
+
+  type DistanceToUser {
+    distance: String
+    to: String
+  }
+
 
   input UserInput {
     firstName: String!
@@ -60,14 +67,15 @@ const typeDefs = `
   input BlogInput {
     info: String!
     img: String
-    pos: PositionInput!
+    pos: BlogPositionInput!
     author: String!
   }
 
-  input PositionInput {
+  input BlogPositionInput {
     longitude: Int!
     latitude: Int!
   }
+
 
 `;
 
