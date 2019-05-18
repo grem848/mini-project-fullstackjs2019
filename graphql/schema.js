@@ -11,6 +11,7 @@ const typeDefs = `
 
   type Mutation {
     addUser(userName: String!, email: String!, password: String!, firstName: String, lastName: String): User
+    addLocationBlog(info: infoInput, user: userInput, pos: positionInput): Blog
   }
 
   type User {
@@ -26,7 +27,7 @@ const typeDefs = `
     likedBy: [User]
     info: String
     pos: [Position]
-    author: String
+    author: User
     created: Date
   }
 
@@ -36,6 +37,24 @@ const typeDefs = `
   }
 
   type Info {
+    status: String
+    msg: String
+  }
+
+  input userInput {
+    firstName: String
+    lastName: String
+    userName: String
+    password: String
+    email: String
+  }
+
+  input positionInput {
+    location: Coordinates
+    user: userInput
+  }
+
+  input infoInput {
     status: String
     msg: String
   }

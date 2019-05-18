@@ -16,13 +16,13 @@ const resolvers = {
 			return await User.find({});
 		},
 		getUser: async (_, { firstName }) => await User.findOne({ firstName }),
-		getAllBlogs: async () => await Blog.find({}).populate('likedBy'),
+		getAllBlogs: async () => await Blog.find({}).populate('likedBy').populate('author'),
 		isUserinArea: async (_, { areaname, username }) => {
 			var obj = await queryFacade.isUserinArea(areaname, username).catch((err) => {
-				res.status(404).json({ msg: err.message });
+				return { msg: err.message };
 			});
 			if (obj !== undefined) {
-				res.status(200).json({ status: obj.status, msg: obj.msg });
+				return { status: obj.status, msg: obj.msg };
 			}
 		}
 	},
@@ -37,6 +37,9 @@ const resolvers = {
 			});
 			user.save();
 			return user;
+		},
+		addLocationBlog: async (_, { info, pos, author }) => {
+			return await blogFacade.addLocationBlog(info, pos, author);
 		}
 	}
 };
