@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
 /** 
 * *****Mongoose******
@@ -29,8 +29,8 @@ const resolvers = {
 		}
 	},
 	Mutation: {
-		addUser: async (_, { firstName, lastName, userName, password, email }) => {
-			return await userFacade.addUser(firstName, lastName, userName, password, email);
+		addUser: async (_, { input }) => {
+			return await userFacade.addUser(input.firstName, input.lastName, input.userName, input.password, input.email);
 		},
 		addLocationBlog: async (_, { info, img, pos, author }) => {
 			return await blogFacade.addLocationBlog(info, img, pos, author);
@@ -42,5 +42,5 @@ const resolvers = {
 };
 
 module.exports = {
-	resolvers
+  resolvers
 };
