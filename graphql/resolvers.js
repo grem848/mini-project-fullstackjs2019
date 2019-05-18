@@ -8,6 +8,8 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const Blog = require('../models/LocationBlog');
+const userFacade = require('../facades/userFacade');
+const blogFacade = require('../facades/blogFacade');
 const queryFacade = require('../facades/queryFacade');
 
 const resolvers = {
@@ -27,19 +29,11 @@ const resolvers = {
 		}
 	},
 	Mutation: {
-		addUser: (_, { userName, email, password, firstName, lastName }) => {
-			var user = new User({
-				firstName,
-				lastName,
-				userName,
-				email,
-				password
-			});
-			user.save();
-			return user;
+		addUser: async (_, { firstName, lastName, userName, password, email }) => {
+			return await userFacade.addUser(firstName, lastName, userName, password, email);
 		},
-		addLocationBlog: async (_, { info, pos, author }) => {
-			return await blogFacade.addLocationBlog(info, pos, author);
+		addLocationBlog: async (_, { info, img, pos, author }) => {
+			return await blogFacade.addLocationBlog(info, img, pos, author);
 		}
 	}
 };

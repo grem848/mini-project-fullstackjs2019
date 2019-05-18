@@ -1,7 +1,7 @@
 const typeDefs = `
   scalar Coordinates
   scalar Date
-
+  
   type Query {
     getAllUsers: [User]
     getUser(firstName: String!): User
@@ -10,8 +10,9 @@ const typeDefs = `
   }
 
   type Mutation {
-    addUser(userName: String!, email: String!, password: String!, firstName: String, lastName: String): User
-    addLocationBlog(info: infoInput, user: userInput, pos: positionInput): Blog
+    addUser(input: UserInput): User
+    addUser2(firstName: String! lastName: String! userName: String! password: String! email: String): User
+    addLocationBlog(info: String!, img: String!, pos: PositionInput, author: String!): Blog
   }
 
   type User {
@@ -41,20 +42,21 @@ const typeDefs = `
     msg: String
   }
 
-  input userInput {
-    firstName: String
-    lastName: String
-    userName: String
-    password: String
-    email: String
-  }
+  input UserInput {
+    id: ID
+    firstName: String!
+    lastName: String!
+    userName: String!
+    password: String!
+    email: String!
+}
 
-  input positionInput {
+  input PositionInput {
     location: Coordinates
-    user: userInput
+    user: UserInput
   }
 
-  input infoInput {
+  input InfoInput {
     status: String
     msg: String
   }
