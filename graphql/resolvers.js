@@ -6,8 +6,6 @@ const _ = require('lodash');
 * *****Facade******
 **/
 const mongoose = require('mongoose');
-const User = require('../models/User');
-const Blog = require('../models/LocationBlog');
 const userFacade = require('../facades/userFacade');
 const blogFacade = require('../facades/blogFacade');
 const queryFacade = require('../facades/queryFacade');
@@ -15,10 +13,12 @@ const queryFacade = require('../facades/queryFacade');
 const resolvers = {
 	Query: {
 		getAllUsers: async () => {
-			return await User.find({});
+			return await userFacade.getAllUsers();
 		},
-		getUser: async (_, { firstName }) => await User.findOne({ firstName }),
-		getAllBlogs: async () => await Blog.find({}).populate('likedBy').populate('author'),
+		getUserByUsername: async (_, { userName }) => await userFacade.findByUsername(userName),
+		getUserByID: async (_, { id }) => await userFacade.findById(id),
+		getAllLocationBlogs: async () => await blogFacade.getAllLocationBlogs(),
+		getBlogByID: async (_, { id }) => await blogFacade.likeLocationBlog(id),
 		isUserinArea: async (_, { areaname, username }) => {
 			var obj = await queryFacade.isUserinArea(areaname, username).catch((err) => {
 				return { msg: err.message };
@@ -34,7 +34,10 @@ const resolvers = {
 		},
 		addLocationBlog: async (_, { info, img, pos, author }) => {
 			return await blogFacade.addLocationBlog(info, img, pos, author);
-		}
+		},
+		likeLocationBlog: async (_, { blogID, userID }) => {
+			return await blogFacade.likeLocationBlog(blogID, userID);
+		},
 	}
 };
 

@@ -4,8 +4,10 @@ const typeDefs = `
   
   type Query {
     getAllUsers: [User]
-    getUser(firstName: String!): User
-    getAllBlogs: [Blog]
+    getUserByUsername(userName: String!): User
+    getUserByID(id: String!): User
+    getAllLocationBlogs: [Blog]
+    getBlogByID(id: String!): Blog
     isUserinArea(areaname: String, username: String): Info
   }
 
@@ -13,6 +15,7 @@ const typeDefs = `
     addUser(input: UserInput): User
     addUser2(firstName: String! lastName: String! userName: String! password: String! email: String): User
     addLocationBlog(info: String!, img: String!, pos: PositionInput, author: String!): Blog
+    likeLocationBlog(blogID: String!, userID: String! ): Blog
   }
 
   type User {
