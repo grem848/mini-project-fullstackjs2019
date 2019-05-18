@@ -32,11 +32,11 @@ const resolvers = {
 		addUser: async (_, { input }) => {
 			return await userFacade.addUser(input.firstName, input.lastName, input.userName, input.password, input.email);
 		},
-		addLocationBlog: async (_, { info, img, pos, author }) => {
-			return await blogFacade.addLocationBlog(info, img, pos, author);
+		addLocationBlog: async (_, { input }) => {
+			return await blogFacade.addLocationBlog(input.info, input.img, input.pos, input.author);
 		},
-		likeLocationBlog: async (_, { blogID, userID }) => {
-			return await blogFacade.likeLocationBlog(blogID, userID);
+		likeLocationBlog: async (_, { input }) => {
+			return await blogFacade.likeLocationBlog(input.blogID, input.userID);
 		},
 	}
 };

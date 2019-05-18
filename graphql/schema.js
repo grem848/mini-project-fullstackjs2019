@@ -13,9 +13,8 @@ const typeDefs = `
 
   type Mutation {
     addUser(input: UserInput): User
-    addUser2(firstName: String! lastName: String! userName: String! password: String! email: String): User
-    addLocationBlog(info: String!, img: String!, pos: PositionInput, author: String!): Blog
-    likeLocationBlog(blogID: String!, userID: String! ): Blog
+    addLocationBlog(input: BlogInput): Blog
+    likeLocationBlog(input: LikeBlogInput ): Blog
   }
 
   type User {
@@ -30,14 +29,14 @@ const typeDefs = `
   type Blog {
     likedBy: [User]
     info: String
-    pos: [Position]
+    pos: Position
     author: User
     created: Date
   }
 
   type Position {
-    location: Coordinates
-    user: User
+    longitude: Int!
+    latitude: Int!
   }
 
   type Info {
@@ -46,26 +45,32 @@ const typeDefs = `
   }
 
   input UserInput {
-    id: ID
     firstName: String!
     lastName: String!
     userName: String!
     password: String!
     email: String!
-}
-
-  input PositionInput {
-    location: Coordinates
-    user: UserInput
   }
 
-  input InfoInput {
-    status: String
-    msg: String
+  input LikeBlogInput {
+    blogID: String!
+    userID: String! 
+  }
+
+  input BlogInput {
+    info: String!
+    img: String
+    pos: PositionInput!
+    author: String!
+  }
+
+  input PositionInput {
+    longitude: Int!
+    latitude: Int!
   }
 
 `;
 
 module.exports = {
-	typeDefs
+  typeDefs
 };
