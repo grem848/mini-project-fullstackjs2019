@@ -20,11 +20,11 @@ const typeDefs = `
 
   type User {
     _id: ID
-    firstName: String
-    lastName: String
-    userName: String
-    password: String
-    email: String
+    firstName: String!
+    lastName: String!
+    userName: String!
+    password: String!
+    email: String!
   }
 
   type Blog {
