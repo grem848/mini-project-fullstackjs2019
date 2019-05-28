@@ -23,5 +23,5 @@ module.exports = {
 ```
 
 - node makeData.js
-- npm start //running on port 3000
+- npm run dev //running on port 3000
 
